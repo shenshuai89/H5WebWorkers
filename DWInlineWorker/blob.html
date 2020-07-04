@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blob URL URL.createObjectURL</title>
+</head>
+
+<body>
+    <script>
+        const url = URL.createObjectURL(
+            new Blob([`postMessage("Dedicated Worker created by Blob")`])
+        );
+
+        let worker = new Worker(url);
+        worker.onmessage = (e) =>
+            console.log(`Main: Received message - ${e.data}`);
+    </script>
+</body>
+
+</html>

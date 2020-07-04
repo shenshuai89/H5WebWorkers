@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/worker textContent</title>
+</head>
+
+<body>
+    <h1>type是javascript/worker</h1>
+    <script id="myWorker" type="javascript/worker">
+        self['onmessage'] = function(event) {
+          postMessage('Hello, ' + event.data.name + '!');
+        };
+     </script>
+     <script>
+        let workerScript = document.querySelector('#myWorker').textContent;
+        let blob = new Blob([workerScript], {type: "text/javascript"});
+        let worker = new Worker(URL.createObjectURL(blob));
+        worker.onmessage = function (e) {
+            console.log(`这里输出的是${e.data}`);
+        }; 
+        worker.postMessage({name:"blob worker"});
+      </script>
+    <!-- <script id="worker" type="javascript/worker">
+        self.onmessage = function(e) {    
+            console.log(`data from parent: ${e.data}`);    
+            const result = eval(e.data);
+          self.postMessage(`data from worker: ${result}`);
+        };
+    </script>
+    <script>
+        const blob = new Blob([document.querySelector('#worker').textContent
+        ]); 
+        const worker = new Worker(window.URL.createObjectURL(blob));
+        worker.onmessage = function (e) {
+            console.log(`${e.data}`);
+        };  // 发送用户脚本，这里是 `1 + 2`
+        worker.postMessage(`1 + 2;`);
+    </script> -->
+</body>
+
+</html>

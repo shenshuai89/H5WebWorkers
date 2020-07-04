@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>专用线程 Dedicated Sub Worker —— Ping/Pong</title>
+  </head>
+  <body>
+    <h3>专用线程-子线程 Dedicated Sub Worker —— Ping/Pong</h3>
+    <script>
+      if (window.Worker) {
+        let worker = new Worker("dw-ping-pong.js");
+        worker.onmessage = (e) =>
+          console.log(`Main: 接收数据 - ${e.data}`);
+        worker.postMessage("main主线程发送数据0000");
+      } else {
+        console.log("呜呜呜，不支持 Web Worker");
+      }
+    </script>
+  </body>
+</html>
